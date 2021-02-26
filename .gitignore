@@ -1,0 +1,7 @@
+*
+!.gitignore
+!build.sh
+!cross_compile_package.sh
+!host_compile_package.sh
+!makepkg.conf
+!pacman.conf
