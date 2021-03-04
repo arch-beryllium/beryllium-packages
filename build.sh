@@ -94,8 +94,6 @@ if [ "$(id -u)" -ne "0" ]; then
   exit 1
 fi
 
-set -ex
-
 ./setup.sh
 
 cross_compile_and_install_package "https://aur.archlinux.org/qrtr-git.git"

@@ -4,8 +4,6 @@ if [ "$(id -u)" -ne "0" ]; then
   exit 1
 fi
 
-set -ex
-
 if [ ! -d "rootfs" ]; then
   mkdir -p rootfs
   pacstrap -C pacman.conf -M rootfs base base-devel

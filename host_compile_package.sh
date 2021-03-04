@@ -1,5 +1,4 @@
 #!/bin/bash
-set -ex
 
 root="$(dirname "$0")/rootfs"
 
@@ -15,4 +14,4 @@ mkdir -p "$root"/mnt/pkg
 mount -o bind . "$root"/mnt/pkg
 
 # Now we can skip downloading and checking the sources and installing dependencies
-arch-chroot "$root" /bin/bash -c "set -ex && cd /mnt/pkg && LANG=C MAKEFLAGS=-j$(nproc --all) makepkg -f -A --noconfirm --skipinteg --holdver \"$@\""
+arch-chroot "$root" /bin/bash -c "cd /mnt/pkg && LANG=C MAKEFLAGS=-j$(nproc --all) makepkg -f -A --noconfirm --skipinteg --holdver \"$@\""
