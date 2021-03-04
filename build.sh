@@ -2,6 +2,20 @@
 function get_package_dir() {
   echo "./pkgs/$(basename "$1" | sed "s/\.git//")"
 }
+function check_already_built() {
+  cd "$(get_package_dir "$1")" || exit 1
+  readarray -t lines <<<$"$(../../makepkg.sh -f -A --config ../../makepkg.conf --packagelist)"
+  for line in "${lines[@]}"; do
+    file="$(basename "$line")"
+    if [ ! -f "../../repo/$file" ]; then
+      cd ../..
+      echo "0"
+      return 0
+    fi
+  done
+  cd ../..
+  echo "1"
+}
 function update_package_repo() {
   dir="$(get_package_dir "$1")"
   if [ ! -d "$dir" ]; then
@@ -34,33 +48,45 @@ function add_package_to_repo() {
 function _cross_compile_package() {
   update_package_repo "$1"
   cd "$(get_package_dir "$1")" || exit 1
-  ../../cross_compile_package.sh
+  ../../cross_compile_package.sh "$2"
   cd ../..
 }
 function cross_compile_package() {
-  _cross_compile_package "$1"
-  add_package_to_repo "$1"
+  _cross_compile_package "$1" --nobuild
+  if [ "$(check_already_built "$1")" == "0" ]; then
+    _cross_compile_package "$1"
+    add_package_to_repo "$1"
+  fi
 }
 function cross_compile_and_install_package() {
-  _cross_compile_package "$1"
-  install_package "$1"
-  add_package_to_repo "$1"
+  _cross_compile_package "$1" --nobuild
+  if [ "$(check_already_built "$1")" == "0" ]; then
+    _cross_compile_package "$1"
+    install_package "$1"
+    add_package_to_repo "$1"
+  fi
 }
 
 function _host_compile_package() {
   update_package_repo "$1"
   cd "$(get_package_dir "$1")" || exit 1
-  ../../host_compile_package.sh
+  ../../host_compile_package.sh "$2"
   cd ../..
 }
 function host_compile_package() {
-  _host_compile_package "$1"
-  add_package_to_repo "$1"
+  _host_compile_package "$1" --nobuild
+  if [ "$(check_already_built "$1")" == "0" ]; then
+    _host_compile_package "$1"
+    add_package_to_repo "$1"
+  fi
 }
 function host_compile_and_install_package() {
-  _host_compile_package "$1"
-  install_package "$1"
-  add_package_to_repo "$1"
+  _host_compile_package "$1" --nobuild
+  if [ "$(check_already_built "$1")" == "0" ]; then
+    _host_compile_package "$1"
+    install_package "$1"
+    add_package_to_repo "$1"
+  fi
 }
 
 if [ "$(id -u)" -ne "0" ]; then
