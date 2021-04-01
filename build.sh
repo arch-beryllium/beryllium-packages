@@ -112,3 +112,4 @@ host_compile_and_install_package "https://github.com/arch-beryllium/ofono-git.gi
 host_compile_package "https://github.com/arch-beryllium/kwin-git.git"
 host_compile_package "https://github.com/arch-beryllium/unity8-git.git"
 host_compile_package "https://github.com/arch-beryllium/unity-system-compositor-git.git"
+host_compile_package "https://github.com/arch-beryllium/mesa-git.git"
