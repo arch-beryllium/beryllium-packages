@@ -23,9 +23,8 @@ function update_package_repo() {
   else
     (
       cd "$dir" || exit 1
-      git checkout .
-      git reset --hard
-      git pull
+      git fetch --all
+      git reset --hard origin/"$(git branch --show-current)"
     )
   fi
 }
