@@ -110,6 +110,8 @@ cross_compile_package "https://github.com/arch-beryllium/mkbootimg-tools-git.git
 cross_compile_package "https://github.com/arch-beryllium/linux-beryllium.git"
 cross_compile_package "https://github.com/arch-beryllium/reboot-mode.git"
 cross_compile_package "https://github.com/arch-beryllium/alsa-ucm-beryllium.git"
+cross_compile_package "https://github.com/arch-beryllium/glibc-locales.git"
+cross_compile_package "https://github.com/arch-beryllium/base-beryllium.git"
 host_compile_and_install_package "https://github.com/arch-beryllium/ofono-git.git"
 host_compile_package "https://github.com/arch-beryllium/kwin-git.git"
 host_compile_package "https://github.com/arch-beryllium/unity8-git.git"
